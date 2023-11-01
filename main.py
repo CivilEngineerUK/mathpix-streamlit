@@ -27,7 +27,7 @@ def main():
     st.divider()
     st.write("This app uses the Mathpix API to convert PDFs and download to various formats."
              "It also allows you to view the converted document by clicking the 'Show Markdown' checkbox.")
-    st.write("You must have a MATHPIX_APP_ID and MATHPIX_APP_KEY stored in a .env file. You can find these on your Mathpix dashboard: https://accounts.mathpix.com/dashboard")
+    st.write("You must have a MATHPIX_APP_ID and MATHPIX_APP_KEY stored in a .env file. You can find these on your [Mathpix dashboard](https://accounts.mathpix.com/dashboard)")
     st.divider()
 
     # Create the MathpixConverter object
@@ -51,7 +51,7 @@ def main():
     st.divider()
 
     st.subheader("Options")
-    st.write("For information about the options go here: https://docs.mathpix.com/#request-parameters-6")
+    st.write("For information about the options go [here](https://docs.mathpix.com/#request-parameters-6)")
 
     section_numbering_option = st.radio(
         'Section Numbering Option',
@@ -156,8 +156,8 @@ def main():
 
 
         # Displaying Markdown viewer
-        show_markdown = st.checkbox('Show Markdown', value=True)
-        if st.session_state["markdown_content"] and show_markdown:
+
+        if st.session_state["markdown_content"]:
             st.markdown('### Converted Markdown Content')
             download_btn = st.download_button(
                 label=btn_label,
@@ -166,7 +166,10 @@ def main():
                 mime=mime_type
             )
             st.divider()
-            st.markdown(st.session_state["markdown_content"], unsafe_allow_html=True)
+
+            show_markdown = st.checkbox('Show Markdown', value=True)
+            if show_markdown:
+                st.markdown(st.session_state["markdown_content"], unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
