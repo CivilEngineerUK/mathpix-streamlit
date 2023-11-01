@@ -18,6 +18,9 @@ if not st.session_state.get("pdf_id"):
 def main():
     st.title('PDF to Mathpix Markdown Converter')
 
+    # Create the MathpixConverter object
+    converter = MathpixConverter()
+
     auth_method = st.radio("Choose an authentication method",
                            ["Provide credentials via .env file", "Enter credentials manually"])
 
@@ -70,11 +73,11 @@ def main():
 
     enable_tables_fallback = st.checkbox('Enable advanced table processing algorithm', value=True)
 
-    conversion_formats = st.multiselect(
-        'Choose conversion formats',
-        ['md', 'docx', 'tex.zip', 'html'],
-        default=['md']
+    selected_format = st.selectbox(
+        'Choose conversion format',
+        ('md', 'docx', 'tex.zip', 'html')
     )
+    conversion_formats = {selected_format: True}
 
     st.divider()
     if st.toggle('Show advanced options'):
@@ -103,8 +106,7 @@ def main():
 
 
     if st.button('Convert'):
-        # Create the MathpixConverter object
-        converter = MathpixConverter()
+
 
         # Create a dictionary for the options
         options = {
@@ -119,7 +121,7 @@ def main():
             'remove_section_numbering': remove_section_numbering,
             'preserve_section_numbering': preserve_section_numbering,
             'enable_tables_fallback': enable_tables_fallback,
-            'conversion_formats': {format: True for format in conversion_formats}
+            'conversion_formats': conversion_formats
         }
         if page_ranges:
             options['page_ranges'] = page_ranges
