@@ -18,17 +18,19 @@ if not st.session_state.get("pdf_id"):
 def main():
     st.title('PDF to Mathpix Markdown Converter')
 
+    st.divider()
+    st.write("This app uses the Mathpix API to convert PDFs and download to various formats."
+             "It also allows you to view the converted document by clicking the 'Show Markdown' checkbox.")
+    st.write("You must have a MATHPIX_APP_ID and MATHPIX_APP_KEY stored in a .env file. You can find these on your Mathpix dashboard: https://accounts.mathpix.com/dashboard")
+    st.divider()
+
     # Create the MathpixConverter object
     converter = MathpixConverter()
 
-    auth_method = st.radio("Choose an authentication method",
-                           ["Provide credentials via .env file", "Enter credentials manually"])
+    col1, col2 = st.columns(2)
 
-    env_file = None
-    app_id = None
-    app_key = None
-
-    if auth_method == "Provide credentials via .env file":
+    with col1:
+        st.subheader("API KEY")
         env_file = st.file_uploader("Upload your .env file", type="env")
 
         if env_file is not None:
@@ -36,21 +38,14 @@ def main():
                 f.write(env_file.getvalue())
             load_dotenv()
 
-    elif auth_method == "Enter credentials manually":
-        st.write("Please enter your Mathpix credentials:")
-        app_id = st.text_input("App ID")
-        app_key = st.text_input("App Key", type="password")
-
-        if app_id and app_key:
-            os.environ["MATHPIX_APP_ID"] = app_id
-            os.environ["MATHPIX_APP_KEY"] = app_key
+    with col2:
+        st.subheader("PDF to Convert")
+        uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 
     st.divider()
 
-    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
-
-    if uploaded_file is not None:
-        st.write('File successfully uploaded.')
+    st.subheader("Options")
+    st.write("For information about the options go here: https://docs.mathpix.com/#request-parameters-6")
 
     section_numbering_option = st.radio(
         'Section Numbering Option',
@@ -155,7 +150,8 @@ def main():
 
 
         # Displaying Markdown viewer
-        if st.session_state["markdown_content"]:
+        show_markdown = st.checkbox('Show Markdown', value=True)
+        if st.session_state["markdown_content"] and show_markdown:
             st.markdown('### Converted Markdown Content')
             download_btn = st.download_button(
                 label=btn_label,
