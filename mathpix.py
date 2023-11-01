@@ -12,6 +12,7 @@ __author__ = 'Mike Rustell'
 __email__ = 'mike@inframatic.ai'
 __github__ = 'CivilEngineerUK'
 
+
 class MathpixConverter:
     def __init__(self):
         self.app_id = os.getenv('MATHPIX_APP_ID')
@@ -53,11 +54,20 @@ class MathpixConverter:
             'app_key': self.app_key
         }
 
-        response = requests.get(url, headers=headers)
-        response_data = response.json()
-        status = response_data.get('status', None)
+        while True:
+            response = requests.get(url, headers=headers)
+            response_data = response.json()
+            status = response_data.get('status', None)
 
-        return status  # Return the status instead of waiting in a loop
+            if status == 'completed':
+                print("Processing complete")
+                return True
+            elif status == 'error':
+                print("Error: Unable to process PDF")
+                return False
+            else:
+                print(f"Status: {status}, waiting for processing to complete")
+                time.sleep(5)
 
     def download_processed_file(self, pdf_id, file_format):
         url = f'https://api.mathpix.com/v3/pdf/{pdf_id}.{file_format}'
