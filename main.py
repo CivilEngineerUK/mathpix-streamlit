@@ -17,6 +17,12 @@ if not st.session_state.get("pdf_id"):
 
 def main():
     st.title('PDF to Mathpix Markdown Converter')
+    st.markdown(
+        """
+        Developed by [CivilEngineerUK](https://github.com/CivilEngineerUK)   [![GitHub Repo](https://img.shields.io/github/stars/CivilEngineerUK/mathpix-streamlit?style=social)](https://github.com/CivilEngineerUK/mathpix-streamlit)
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.divider()
     st.write("This app uses the Mathpix API to convert PDFs and download to various formats."
