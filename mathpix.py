@@ -76,8 +76,7 @@ class MathpixConverter:
             'app_key': self.app_key
         }
 
-        response = requests.get(url, headers=headers)
-        return response
+        return requests.get(url, headers=headers)
 
     def mathpix_convert(self, input_pdf_path, output_md_path):
         if not os.path.exists(output_md_path):
