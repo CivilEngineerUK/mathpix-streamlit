@@ -135,9 +135,9 @@ def main():
             # Convert the file
             st.session_state["pdf_id"] = converter.send_pdf_to_mathpix(temp_file_path, options=options)
             if st.session_state["pdf_id"]:
-                processing_status = converter.wait_for_processing(st.session_state["pdf_id"])
-
-                if processing_status:
+                if processing_status := converter.wait_for_processing(
+                    st.session_state["pdf_id"]
+                ):
                     # Getting Markdown content for viewing
                     response = converter.download_processed_file(st.session_state["pdf_id"], 'md')
                     st.session_state["markdown_content"] = response.content.decode('utf-8')
@@ -167,8 +167,7 @@ def main():
             )
             st.divider()
 
-            show_markdown = st.checkbox('Show Markdown', value=True)
-            if show_markdown:
+            if show_markdown := st.checkbox('Show Markdown', value=True):
                 st.markdown(st.session_state["markdown_content"], unsafe_allow_html=True)
 
 if __name__ == "__main__":
