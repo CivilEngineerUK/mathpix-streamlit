@@ -102,7 +102,6 @@ def main():
     else:
         # Provide input fields for only the most commonly used options
         rm_spaces = True
-        rm_fonts = False
         idiomatic_eqn_arrays = False
         numbers_default_to_math = False
         math_inline_delimiters = '\\(,\\)'
@@ -131,7 +130,6 @@ def main():
             'enable_tables_fallback': enable_tables_fallback,
             'conversion_formats': conversion_formats,
             'include_equation_tags': include_equation_tags,
-            'rm_fonts': rm_fonts
         }
         if page_ranges:
             options['page_ranges'] = page_ranges
