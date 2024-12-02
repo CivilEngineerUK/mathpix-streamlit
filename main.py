@@ -72,6 +72,13 @@ def main():
         auto_number_sections = False
         remove_section_numbering = True
 
+    include_equation_tags = st.checkbox(
+        "Include Equation Numbers",
+        True
+    )
+
+    rm_fonts = st.checkbox('Remove font commands from equations', True)
+
     enable_tables_fallback = st.checkbox('Enable advanced table processing algorithm', value=True)
 
     selected_format = st.selectbox(
@@ -122,7 +129,9 @@ def main():
             'remove_section_numbering': remove_section_numbering,
             'preserve_section_numbering': preserve_section_numbering,
             'enable_tables_fallback': enable_tables_fallback,
-            'conversion_formats': conversion_formats
+            'conversion_formats': conversion_formats,
+            'include_equation_tags': include_equation_tags,
+            'rm_fonts': rm_fonts
         }
         if page_ranges:
             options['page_ranges'] = page_ranges
